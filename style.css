@@ -1,0 +1,181 @@
+/* styles.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7f6; /* Light grey background */
+    color: #333; /* Dark grey text */
+}
+
+header {
+    background-color: #007bff; /* Primary blue color */
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    font-size: 2.5em;
+}
+
+header p {
+    margin: 0;
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.comparison-item {
+    background-color: #ffffff; /* White background for sections */
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Hide collapsed content */
+}
+
+.item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #e9ecef; /* Light grey header background */
+    cursor: pointer; /* Indicate it's clickable */
+    border-bottom: 1px solid #dee2e6;
+}
+
+.item-header h2 {
+    margin: 0;
+    font-size: 1.3em;
+    color: #0056b3; /* Darker blue */
+}
+
+.toggle-btn {
+    background: none;
+    border: 1px solid #007bff;
+    color: #007bff;
+    font-size: 1.5em;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.item-header.active .toggle-btn {
+    transform: rotate(45deg); /* Rotate + to become X or just visually indicate active */
+}
+
+.item-content {
+    padding: 0 20px;
+    max-height: 0; /* Start collapsed */
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out; /* Smooth transition */
+}
+
+.item-header.active + .item-content {
+     max-height: 1000px; /* Needs to be larger than max possible content height */
+     padding: 15px 20px;
+}
+
+
+.item-content p {
+    margin-bottom: 15px;
+    text-align: justify;
+}
+
+/* Styling for code blocks (Prism.js handles most, but adjust padding/margin) */
+pre {
+    margin: 15px 0;
+    border-radius: 5px;
+    overflow-x: auto; /* Add horizontal scroll if code is too wide */
+}
+
+code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 30px;
+    color: #777; /* Grey text */
+    font-size: 0.9em;
+}
+
+/* Customizing Prism.js toolbar - Optional */
+.prism-toolbar .toolbar-item {
+    margin-right: 10px;
+}
+
+#result {
+    color:black;
+}
+
+/* Style cho các nút trong phần nội dung của mục */
+.item-content button {
+    /* Đổi màu nền của nút */
+    background-color: #007bff; /* Màu xanh dương */
+    /* background-color: #28a745;  Màu xanh lá cây */
+
+    /* Đổi màu chữ của nút */
+    color: white;
+
+    /* Thêm khoảng đệm bên trong nút (trên dưới, trái phải) */
+    padding: 10px 15px;
+
+    /* Bỏ viền mặc định của nút */
+    border: none;
+
+    /* Bo tròn các góc của nút */
+    border-radius: 5px;
+
+    /* Thay đổi con trỏ chuột khi rê qua nút */
+    cursor: pointer;
+
+    /* Điều chỉnh kích thước font và độ đậm nhạt của chữ */
+    font-size: 1rem;
+    font-weight: normal; /* bold nếu muốn chữ đậm */
+
+    /* Thêm khoảng cách giữa các nút (nếu cần cho layout) */
+    margin: 5px;
+
+    /* Tạo hiệu ứng chuyển đổi mượt mà khi hover (tùy chọn) */
+    transition: background-color 0.3s ease;
+}
+
+/* Style khi rê chuột qua nút (hover state) */
+.item-content button:hover {
+    background-color: #0056b3; /* Màu xanh dương đậm hơn khi hover */
+    /* background-color: #218838;  Màu xanh lá cây đậm hơn khi hover */
+}
+
+/* Style khi nhấn nút (active state - tùy chọn) */
+.item-content button:active {
+    background-color: #004085; /* Màu xanh dương tối hơn khi nhấn */
+    /* background-color: #1e7e34;  Màu xanh lá cây tối hơn khi nhấn */
+    max-height: 2000px;
+}
+
+canvas {
+    display: block !important; /* Đảm bảo hiển thị ở dạng block */
+    visibility: visible !important; /* Đảm bảo hiển thị */
+    z-index: 10 !important; /* Đảm bảo nằm trên hầu hết các phần tử khác */
+    position: relative !important; /* Gán position để z-index có hiệu lực mạnh hơn */
+    border: 2px solid red !important; /* Đổi màu border sang đỏ cho dễ thấy, thêm !important */
+    background-color: rgba(0, 255, 0, 0.3) !important; /* Thêm màu nền tạm thời (xanh lá nhạt) để xem vùng canvas */
+
+    /* Kích thước set trong JS là đủ, nhưng có thể thêm ở đây để chắc chắn */
+    /* width: 600px !important; */
+    /* height: 400px !important; */
+}

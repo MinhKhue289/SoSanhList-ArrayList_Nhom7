@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>So sánh List&lt;T&gt; và ArrayList | C#</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+    <header>
+        <h1>So sánh <code>List&lt;T&gt;</code> và <code>ArrayList</code> trong C# - Đồ Án Kết Thúc Môn Cấu Trúc Dữ Liệu Và Giải Thuật</h1>
+        <p>Giúp cô và các bạn có góc nhìn tổng quan hơn về đề tài của nhóm em!</p>
+        <p>GVHD : 	Nguyễn Thị Thùy Trang</p>
+        <p>Mã học phần : 	0101101943</p>
+        <p>TKB chính thức: 	Thứ Hai , tiết 10 – 12  </p>
+    </header>
+
+    <main class="container">
+
+        <section class="comparison-item">
+            <div class="item-header">
+                <h2>1. Tổng quan</h2>
+                <button class="toggle-btn">+</button>
+            </div>
+            <div class="item-content">
+                <p>
+                    <code>ArrayList</code> là một lớp cũ, không generic, thuộc .NET Framework ban đầu. Nó lưu trữ các phần tử dưới dạng kiểu <code>object</code>.
+                </p>
+                 <p>
+                    <code>List&lt;T&gt;</code> là một lớp hiện đại hơn, generic, được giới thiệu từ .NET Framework 2.0. Nó lưu trữ các phần tử của một kiểu dữ liệu cụ thể <code>T</code> do bạn chỉ định.
+                </p>
+            </div>
+        </section>
+
+         <section class="comparison-item">
+            <div class="item-header">
+                <h2>2. An toàn kiểu (Type Safety)</h2>
+                <button class="toggle-btn">+</button>
+            </div>
+            <div class="item-content">
+                <p>
+                    <code>List&lt;T&gt;</code>: An toàn kiểu tại thời điểm biên dịch (compile-time). Chỉ cho phép thêm các phần tử thuộc kiểu <code>T</code>. Trình biên dịch sẽ báo lỗi nếu bạn cố gắng thêm kiểu dữ liệu khác.
+                </p>
+                <pre><code class="language-csharp">
+// List&lt;int&gt; - An toàn kiểu
+var safeList = new List&lt;int&gt;();
+safeList.Add(10); // OK
+
+// safeList.Add("hello"); // Lỗi biên dịch (Compile-time Error)!
+// Ngăn chặn lỗi về kiểu dữ liệu ngay từ lúc viết code.
+                </code></pre>
+                <p>
+                    <code>ArrayList</code>: Không an toàn kiểu. Cho phép thêm bất kỳ loại đối tượng nào (do tất cả đều là <code>object</code>). Các lỗi về kiểu dữ liệu chỉ có thể phát hiện khi chạy chương trình (runtime).
+                </p>
+                 <pre><code class="language-csharp">
+// ArrayList - Không an toàn kiểu
+var unsafeList = new ArrayList();
+unsafeList.Add(10); // OK (boxing int to object)
+unsafeList.Add("hello"); // OK (string is an object)
+
+// Khi lấy ra, bạn phải ép kiểu tường minh:
+int number = (int)unsafeList[0]; // OK (unboxing object to int)
+
+// string text = (string)unsafeList[1]; // OK
+
+// int anotherNumber = (int)unsafeList[1]; // Lỗi runtime!
+// Sẽ xảy ra lỗi InvalidCastException khi chạy.
+                </code></pre>
+            </div>
+        </section>
+
+         <section class="comparison-item">
+            <div class="item-header">
+                <h2>3. Hiệu năng (Performance)</h2>
+                 <button class="toggle-btn">+</button>
+            </div>
+            <div class="item-content">
+                <p>
+                    <code>List&lt;T&gt;</code>: Thường có hiệu năng tốt hơn. Với các kiểu giá trị (như <code>int</code>, <code>double</code>, <code>struct</code>), việc lưu trữ và truy cập trực tiếp diễn ra nhanh chóng vì không có quá trình boxing (đóng gói kiểu giá trị vào đối tượng) và unboxing (mở đối tượng lấy kiểu giá trị).
+                </p>
+                <p>
+                    <code>ArrayList</code>: Chậm hơn, đặc biệt khi làm việc với các kiểu giá trị. Mỗi lần thêm kiểu giá trị vào <code>ArrayList</code> là một lần boxing, và mỗi lần lấy ra là một lần unboxing và ép kiểu. Quá trình này tốn thời gian và tài nguyên CPU.
+                </p>
+                 <pre><code class="language-csharp">
+// Ví dụ về Boxing/Unboxing với ArrayList
+int myInt = 10;
+arrayList.Add(myInt); // Boxing: int -> object
+
+// ... sau đó lấy ra ...
+int retrievedInt = (int)arrayList[0]; // Unboxing & Casting: object -> int
+
+// List<T> không có bước này khi T là kiểu giá trị.
+                 </code></pre>
+                  <p>
+                    <em>(Lưu ý: Để đo lường hiệu năng chính xác cần môi trường chạy C#, phần này chỉ mô tả sự khác biệt về nguyên tắc hoạt động.)</em>
+                </p>
+            </div>
+        </section>
+
+         <section class="comparison-item">
+            <div class="item-header">
+                <h2>4. Sử dụng bộ nhớ (Memory Usage)</h2>
+                 <button class="toggle-btn">+</button>
+            </div>
+            <div class="item-content">
+                <p>
+                    <code>List&lt;T&gt;</code>: Sử dụng bộ nhớ hiệu quả hơn, đặc biệt với các kiểu giá trị. Dữ liệu được lưu trữ gọn gàng trong mảng.
+                </p>
+                 <p>
+                    <code>ArrayList</code>: Có thể tốn bộ nhớ hơn khi lưu trữ kiểu giá trị do mỗi phần tử phải được đóng gói thành một đối tượng (bao gồm overhead của object header).
+                </p>
+            </div>
+        </section>
+
+         <section class="comparison-item">
+            <div class="item-header">
+                <h2>5. Khuyến nghị</h2>
+                 <button class="toggle-btn">+</button>
+            </div>
+            <div class="item-content">
+                <p>
+                    Trong hầu hết các trường hợp khi làm việc với C# hiện đại, bạn nên ưu tiên sử dụng <code>List&lt;T&gt;</code>. Nó cung cấp an toàn kiểu, hiệu năng tốt hơn và cú pháp sạch sẽ, dễ sử dụng hơn.
+                </p>
+                 <p>
+                    <code>ArrayList</code> chủ yếu được tìm thấy trong các đoạn code C# hoặc .NET Framework cũ. Chỉ sử dụng nó khi bạn có lý do rất cụ thể (ví dụ: tương thích ngược với code cũ) và hiểu rõ các hạn chế của nó.
+                </p>
+            </div>
+        </section>
+
+        <section class="comparison-item">
+            <div class="item-header">
+                <h2>6. Mô phỏng thao tác với List và ArrayList bằng C# </h2>
+                 <button class="toggle-btn">+</button>
+            </div>
+            <div class="item-content">
+                <input type="number" id="count" placeholder="Số phần tử">
+<button onclick="runOp('add')">Thêm</button>
+<button onclick="runOp('insert')">Chèn giữa</button>
+<button onclick="runOp('get')">Lấy phần tử</button>
+<button onclick="runOp('remove')">Xóa phần tử</button>
+
+<pre id="result"></pre>
+
+            </div>
+        </section>
+    </main>
+
+   <footer>
+        <p>Nhóm 7 - Đề Tài 15</p>
+   </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+    <script src="script.js"></script>
+   
+
+</body>
+</html>
